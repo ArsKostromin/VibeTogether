@@ -1,0 +1,46 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.events-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.event-card {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.event-image {
+    width: 100%;        /* Изображение будет растягиваться по ширине контейнера */
+    max-width: 300px;   /* Максимальная ширина 300px */
+    height: auto;       /* Высота пропорциональна ширине, чтобы сохранить пропорции */
+    object-fit: contain; /* Сохраняет пропорции изображения, не вытягивая его */
+}
+
+.pagination {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.pagination a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #007bff;
+}
+
+.current-page {
+    margin: 0 10px;
+    font-weight: bold;
+}
