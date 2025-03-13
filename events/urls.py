@@ -5,10 +5,11 @@ from django.urls import re_path
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework.routers import DefaultRouter
+from .views import EventsListView
 
 
 urlpatterns = [
-
+    path('', EventsListView.as_view(), name='events_list')
 ]
 
 if settings.DEBUG:

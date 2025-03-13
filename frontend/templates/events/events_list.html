@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Список мероприятий</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <h1>Список мероприятий</h1>
+
+    <!-- Форма поиска -->
+    <form method="GET" action="{% url 'events_list' %}" class="search-form">
+        <input type="text" name="query" value="{{ request.GET.query }}" placeholder="Поиск по названию" />
+        <button type="submit">Поиск</button>
+    </form>
+
+    {% if events_list %}
+        <div class="events-list">
+            {% for event in events_list %}
+                <div class="event-card">
+                    <h2>{{ event.name }}</h2>
+
+                    {% if event.img %}
+                        <img src="{{ event.img.url }}" alt="{{ event.name }}" class="event-image">
+                    {% endif %}
+
+                    {% if event.description %}
+                        <p><strong>Описание:</strong> {{ event.description }}</p>
+                    {% endif %}
+
+                    {% if event.location %}
+                        <p><strong>Место проведения:</strong> {{ event.location }}</p>
+                    {% endif %}
+
+                    {% if event.date %}
+                        <p><strong>Дата проведения:</strong> {{ event.date }}</p>
+                    {% endif %}
+
+                    <p><strong>Опубликовано:</strong> {{ event.published }}</p>
+                    <p><strong>Голоса:</strong> {{ event.vote }}</p>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Пагинация -->
+        <div class="pagination">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; первая</a>
+                <a href="?page={{ page_obj.previous_page_number }}">← предыдущая</a>
+            {% endif %}
+
+            <span class="current-page">Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">следующая →</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">последняя &raquo;</a>
+            {% endif %}
+        </div>
+
+    {% else %}
+        <p>Пока нет мероприятий.</p>
+    {% endif %}
+
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>
