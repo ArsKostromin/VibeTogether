@@ -8,7 +8,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('events/', include('events.urls')),
     path('admin/', admin.site.urls),
-    path('auth/', include('social_django.urls', namespace='social')),
+    path('oauth/', include('social_django.urls', namespace='social')),
 ]
 
 
