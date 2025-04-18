@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 # Create your models here.
 class Events(models.Model):
@@ -16,4 +17,14 @@ class Events(models.Model):
         verbose_name = 'мероприятие'
         ordering = ['-published']
     
+    def get_absolute_url(self):
+        """
+        Возвращает URL-адрес для доступа к определенному экземпляру книги.
+        """
+        return reverse('event_detail', args={ self.slug })
     
+    def __str__(self):
+        """
+        Строка для представления модельного объекта.
+        """
+        return self.name

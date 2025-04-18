@@ -15,5 +15,6 @@ class EventsListView(generic.ListView):
         return filter_events_by_title(query)
     
 
-class EventDetailView(generic.DateDetailView):
+class EventDetailView(generic.DetailView):
     model = Events
+    
