@@ -1,12 +1,8 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Список мероприятий</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}Список мероприятий{% endblock %}
+
+{% block content %}
     <h1>Список мероприятий</h1>
 
     <!-- Форма поиска -->
@@ -19,7 +15,7 @@
         <div class="events-list">
             {% for event in events_list %}
                 <div class="event-card">
-                    <h2>{{ event.name }}</h2>
+                    <a href="{{ event.get_absolute_url }}"><h2>{{ event.name }}</h2></a>
 
                     {% if event.img %}
                         <img src="{{ event.img.url }}" alt="{{ event.name }}" class="event-image">
@@ -61,7 +57,4 @@
     {% else %}
         <p>Пока нет мероприятий.</p>
     {% endif %}
-
-    <script src="{% static 'js/main.js' %}"></script>
-</body>
-</html>
+{% endblock %}

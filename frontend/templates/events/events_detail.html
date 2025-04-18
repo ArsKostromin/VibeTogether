@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="event-detail">
+    <h1>{{ object.name }}</h1>
+
+    {% if object.img %}
+      <img src="{{ object.img.url }}" alt="{{ object.name }}" style="max-width: 100%; height: auto;">
+    {% endif %}
+
+    <p><strong>Описание:</strong> {{ object.description }}</p>
+    <p><strong>Место проведения:</strong> {{ object.location }}</p>
+    <p><strong>Дата проведения:</strong> {{ object.date }}</p>
+    <p><strong>Опубликовано:</strong> {{ object.published }}</p>
+    <p><strong>Голосов:</strong> {{ object.vote }}</p>
+  </div>
+{% endblock %}
