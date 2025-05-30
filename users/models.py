@@ -33,11 +33,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     bio = models.TextField(blank=True, max_length=100)
     # is_organizer = models.BooleanField(default=False)
 
-    # Соцсети
-    instagram = models.URLField(blank=True)
-    twitter = models.URLField(blank=True)
-    website = models.URLField(blank=True)
-
     # Служебные поля
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)

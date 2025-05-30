@@ -9,6 +9,7 @@ urlpatterns = [
     path('events/', include('events.urls')),
     path('admin/', admin.site.urls),
     path('oauth/', include('social_django.urls', namespace='social')),
+    path('accounts/', include('users.urls')),
 ]
 
 

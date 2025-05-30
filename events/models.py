@@ -1,7 +1,9 @@
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth import get_user_model
 
-# Create your models here.
+User = get_user_model()
+
 class Events(models.Model):
     name = models.CharField(max_length=35, verbose_name='название мероприятия')
     img = models.ImageField(upload_to='images', null=True, blank=True, verbose_name='Картинка')
@@ -12,19 +14,30 @@ class Events(models.Model):
     date = models.DateField(null=True, blank=True, verbose_name='дата проведения')
     slug = models.SlugField(unique=True, verbose_name="URL", db_index=True)
 
+    creator = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='created_events',
+        verbose_name='Создатель',
+        blank=True,
+        null=True,
+    )
+
+    participants = models.ManyToManyField(
+        User,
+        related_name='joined_events',
+        blank=True,
+        null=True,
+        verbose_name='Участники',
+    )
+
     class Meta:
         verbose_name_plural = 'Мероприятия'
         verbose_name = 'мероприятие'
         ordering = ['-published']
-    
+
     def get_absolute_url(self):
-        """
-        Возвращает URL-адрес для доступа к определенному экземпляру книги.
-        """
-        return reverse('event_detail', args={ self.slug })
-    
+        return reverse('event_detail', args={self.slug})
+
     def __str__(self):
-        """
-        Строка для представления модельного объекта.
-        """
         return self.name
