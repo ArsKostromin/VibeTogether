@@ -31,6 +31,8 @@ class Events(models.Model):
         verbose_name='Участники',
     )
 
+    is_active = models.BooleanField(default=False, verbose_name='Опубликовано модератором')
+
     class Meta:
         verbose_name_plural = 'Мероприятия'
         verbose_name = 'мероприятие'

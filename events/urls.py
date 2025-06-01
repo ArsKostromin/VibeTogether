@@ -5,12 +5,14 @@ from django.urls import re_path
 from django.conf import settings
 from django.conf.urls.static import static
 # from rest_framework.routers import DefaultRouter
-from .views import EventsListView, EventDetailView
+from .views import EventsListView, EventDetailView, EventCreateView
 
 
 urlpatterns = [
     path('', EventsListView.as_view(), name='events_list'),
-    path('<slug>', EventDetailView.as_view(), name='event_detail')
+    path('<slug>', EventDetailView.as_view(), name='event_detail'),
+    path('create/', EventCreateView.as_view(), name='event_create'),
+
 ]
 
 if settings.DEBUG:

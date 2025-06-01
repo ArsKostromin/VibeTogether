@@ -17,7 +17,7 @@
             </button>
         </form>   
         <a href="{% url 'user_profile' user.id %}" style="margin-left: 10px; display: inline-flex; align-items: center; gap: 5px;">
-            {% if user.avatar.url %}
+            {% if user.avatar and user.avatar.name %}
                 <img src="{{ user.avatar.url }}" alt="Аватар" style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover;">
             {% else %}
                 <img src="{% static 'img/default_avatar.png' %}" alt="Аватар" style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover;">
