@@ -12,7 +12,6 @@ class Events(models.Model):
     published = models.DateField(auto_now_add=True, db_index=True, verbose_name='Опубликовано')
     vote = models.IntegerField(default=0, null=True, blank=True, verbose_name='голоса')
     date = models.DateField(null=True, blank=True, verbose_name='дата проведения')
-    slug = models.SlugField(unique=True, verbose_name="URL", db_index=True)
 
     creator = models.ForeignKey(
         User,
@@ -39,7 +38,7 @@ class Events(models.Model):
         ordering = ['-published']
 
     def get_absolute_url(self):
-        return reverse('event_detail', args={self.slug})
+        return reverse('event_detail', args=[str(self.id)])
 
     def __str__(self):
         return self.name

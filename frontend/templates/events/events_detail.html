@@ -13,5 +13,21 @@
     <p><strong>Дата проведения:</strong> {{ object.date }}</p>
     <p><strong>Опубликовано:</strong> {{ object.published }}</p>
     <p><strong>Голосов:</strong> {{ object.vote }}</p>
+    <p><strong>Участников:</strong> {{ object.participants.count }}</p>
+
+    <div class="event-actions">
+      {% if user.is_authenticated %}
+        <form method="post" action="{% url 'event_join' object.pk %}">
+          {% csrf_token %}
+          {% if user in object.participants.all %}
+            <button type="submit" disabled>Вы уже записались</button>
+          {% else %}
+            <button type="submit">Записаться</button>
+          {% endif %}
+        </form>
+      {% else %}
+        <a href="{% url 'login' %}?next={{ request.path }}">Войдите, чтобы записаться</a>
+      {% endif %}
+    </div>
   </div>
 {% endblock %}
