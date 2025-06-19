@@ -16,7 +16,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'drf_yasg',
     # мои приложения
     'events',
     'users',
@@ -45,14 +45,16 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'frontend' / 'templates'],
-        'APP_DIRS': True,
+        'DIRS': [BASE_DIR / 'frontend' / 'templates'],  # норм, если у тебя там кастомные шаблоны
+        'APP_DIRS': True,  # <<<<<<<<<<<<<< ОБЯЗАТЕЛЬНО
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                # соц логин
                 'social_django.context_processors.backends',
                 'social_django.context_processors.login_redirect',
             ],
