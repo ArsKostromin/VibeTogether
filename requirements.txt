@@ -1,6 +1,10 @@
-Django
+Django>=4.2
 psycopg2
 social-auth-app-django
 python-dotenv
 django-filter
 Pillow
+
+djangorestframework
+djangorestframework-simplejwt
+django-cors-headers

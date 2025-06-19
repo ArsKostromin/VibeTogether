@@ -1,11 +1,10 @@
-from django.contrib.auth import views as auth_views
-from django.urls import path, include
-from .views import registerUser, view_or_edit_profile, user_profile_view
+# users/urls.py
+from django.urls import path
+from .views import RegisterUserAPIView, MyProfileAPIView, UserProfileAPIView, CustomAuthToken
 
 urlpatterns = [
-    path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-    path('register/', registerUser, name='register'),
-    path('profile/', view_or_edit_profile, name='profile'),
-    path('profile/<int:user_id>/', user_profile_view, name='user_profile'),
+    path('register/', RegisterUserAPIView.as_view(), name='api_register'),
+    path('login/', CustomAuthToken.as_view(), name='api_login'),
+    path('me/', MyProfileAPIView.as_view(), name='api_profile'),
+    path('<int:user_id>/', UserProfileAPIView.as_view(), name='api_user_profile'),
 ]

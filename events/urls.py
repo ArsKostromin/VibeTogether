@@ -1,20 +1,14 @@
-from django.contrib import admin
-from django.urls import path, include
-from django.urls import re_path
-# from .views import 
-from django.conf import settings
-from django.conf.urls.static import static
-# from rest_framework.routers import DefaultRouter
-from .views import EventsListView, EventDetailView, EventCreateView, JoinEventView
-
+from django.urls import path
+from .views import (
+    EventListAPIView,
+    EventDetailAPIView,
+    EventCreateAPIView,
+    JoinEventAPIView,
+)
 
 urlpatterns = [
-    path('', EventsListView.as_view(), name='events_list'),
-    path('<int:pk>', EventDetailView.as_view(), name='event_detail'),
-    path('events/<int:pk>/join/', JoinEventView.as_view(), name='event_join'),
-    path('create/', EventCreateView.as_view(), name='event_create'),
-
+    path('events/', EventListAPIView.as_view(), name='event-list'),
+    path('events/<int:pk>/', EventDetailAPIView.as_view(), name='event-detail'),
+    path('events/create/', EventCreateAPIView.as_view(), name='event-create'),
+    path('events/<int:pk>/join/', JoinEventAPIView.as_view(), name='event-join'),
 ]
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,60 +1,38 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import login
-from django.contrib.auth import get_backends
-from .forms import CustomUserCreationForm, CustomUserChangeForm
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+# users/views.py
+from rest_framework import generics, permissions
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.authtoken.models import Token
+from rest_framework.response import Response
 from .models import User
+from .serializers import UserSerializer, UserRegisterSerializer
 
-# Create your views here.
-def registerUser(request):
-    page = 'register'
-    form = CustomUserCreationForm()
+class RegisterUserAPIView(generics.CreateAPIView):
+    serializer_class = UserRegisterSerializer
+    permission_classes = [permissions.AllowAny]
 
-    if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST, request.FILES)
-        if form.is_valid():
-            user = form.save(commit=False)
 
-            user.save()
+class CustomAuthToken(ObtainAuthToken):
+    def post(self, request, *args, **kwargs):
+        response = super().post(request, *args, **kwargs)
+        token = Token.objects.get(key=response.data['token'])
+        return Response({
+            'token': token.key,
+            'user_id': token.user_id,
+            'email': token.user.email
+        })
 
-            messages.success(request, 'Аккаунт успешно создан!')
 
-            user.backend = 'django.contrib.auth.backends.ModelBackend'
-            login(request, user)
-            
-            return redirect('/events/')
+class MyProfileAPIView(generics.RetrieveUpdateAPIView):
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
-        else:
-            messages.error(
-                request, 'Во время регистрации возникла ошибка')
+    def get_object(self):
+        return self.request.user
 
-    context = {'page': page, 'form': form}
-    return render(request, 'users/register.html', context)
 
-@login_required
-def view_or_edit_profile(request):
-    user = request.user
-
-    if request.method == 'POST':
-        form = CustomUserChangeForm(request.POST, request.FILES, instance=user)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Профиль обновлён.')
-            return redirect('profile')  # укажи нужный url name
-        else:
-            messages.error(request, 'Ошибка при обновлении профиля.')
-    else:
-        form = CustomUserChangeForm(instance=user)
-
-    return render(request, 'users/profile.html', {'form': form})
-
-@login_required
-def user_profile_view(request, user_id):
-    profile_user = get_object_or_404(User, id=user_id)
-    is_own_profile = request.user == profile_user
-    context = {
-        'profile_user': profile_user,
-        'is_own_profile': is_own_profile,
-    }
-    return render(request, 'users/user_profile.html', context)
+class UserProfileAPIView(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    lookup_field = 'id'
+    lookup_url_kwarg = 'user_id'
