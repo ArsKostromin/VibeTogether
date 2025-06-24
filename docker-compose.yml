@@ -1,28 +1,21 @@
+version: "3.8"
+
 services:
-  vibetogether:
-    build: .
+  backend:
+    build: ./backend
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - .:/app
+      - ./backend:/app
     ports:
       - "8000:8000"
-    environment:
-      - PYTHONUNBUFFERED=1
     env_file:
-      - .env
-    # depends_on:
-    #   - redis
+      - ./backend/.env
 
-  # redis:
-  #   image: redis:6.2
-  #   container_name: redis
-  #   ports:
-  #     - "6379:6379"
-
-  # celery:
-  #   build: .
-  #   command: celery -A gameshop worker --loglevel=info
-  #   volumes:
-  #     - .:/app
-  #   depends_on:
-  #     - redis
+  frontend:
+    build: ./frontend
+    command: ["npm", "run", "dev"] # Обязательно указать эту команду!
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules

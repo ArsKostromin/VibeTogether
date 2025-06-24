@@ -1,0 +1,44 @@
+.advantages-wrapper {
+  padding: 60px 0;
+}
+.my-wide-section {
+  padding: 60px 0;
+}
+
+
+.section-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 40px;
+  color: white;
+}
+
+.advantages-block {
+  background-image: url('/public/Bg-advantages.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  padding: 40px;
+  border-radius: 20px;
+}
+
+/* Переопределяем стили Card */
+.advantages-block .adv-card {
+  background-color: rgba(17, 24, 39, 0.75) !important;
+  border: none !important;
+  border-radius: 16px !important;
+  box-shadow: 0px 7px 9px -5px rgba(139, 92, 246, 0.3) !important;
+  padding: 20px;
+  height: 100%;
+}
+
+/* Стили для содержимого карточки */
+.advantages-block .adv-card .card-body {
+  background-color: transparent !important;
+  padding: 0 !important;
+}
+
+.advantages-block .adv-card .adv-title,
+.advantages-block .adv-card .adv-text {
+  color: white !important; /* Меняем черный на белый */
+}
