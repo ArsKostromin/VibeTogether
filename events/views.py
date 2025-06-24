@@ -9,6 +9,7 @@ from .services import filter_events_by_title
 
 class EventListAPIView(generics.ListAPIView):
     serializer_class = EventSerializer
+    permission_classes = [permissions.AllowAny]
 
     def get_queryset(self):
         query = self.request.GET.get('query')
@@ -23,10 +24,11 @@ class EventDetailAPIView(generics.RetrieveAPIView):
 class EventCreateAPIView(generics.CreateAPIView):
     queryset = Events.objects.all()
     serializer_class = EventSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
 
     def perform_create(self, serializer):
-        serializer.save(creator=self.request.user, is_active=False)  # Сразу на модерацию
+        user = self.request.user if self.request.user.is_authenticated else None
+        serializer.save(creator=user, is_active=False)
 
 
 class JoinEventAPIView(APIView):

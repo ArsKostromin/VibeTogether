@@ -4,9 +4,19 @@ from django.contrib.auth.password_validation import validate_password
 from .models import User
 
 class UserSerializer(serializers.ModelSerializer):
+    avatar = serializers.SerializerMethodField()
+
     class Meta:
         model = User
         fields = ['id', 'email', 'first_name', 'last_name', 'avatar', 'bio']
+
+    def get_avatar(self, obj):
+        request = self.context.get('request', None)
+        if obj.avatar and hasattr(obj.avatar, 'url'):
+            if request:
+                return request.build_absolute_uri(obj.avatar.url)
+            return obj.avatar.url
+        return None
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):
